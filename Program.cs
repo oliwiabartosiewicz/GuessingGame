@@ -24,11 +24,11 @@ class Program
         for (int row = 0; row < boardSize; row++)
         {
             Console.Write(row + " ");
-            for (int collumn = 0; collumn < boardSize; collumn++)
+            for (int column = 0; column < boardSize; column++)
             {
-                if (revealed[row, collumn])
+                if (revealed[row, column])
                 {
-                    Console.Write(board[row, collumn] + " ");
+                    Console.Write(board[row, column] + " ");
                 }
                 else
                 {
