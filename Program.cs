@@ -21,10 +21,13 @@ class Program
     static void DisplayBoard()
     {
         Console.WriteLine("  0 1 2");
-        for (int row = 0; row < boardSize; row++)
+        int row = 0;
+        while (row < boardSize)
         {
             Console.Write(row + " ");
-            for (int column = 0; column < boardSize; column++)
+
+            int column = 0;
+            while (column < boardSize)
             {
                 if (revealed[row, column])
                 {
@@ -34,8 +37,12 @@ class Program
                 {
                     Console.Write("* ");
                 }
+
+                column++;
             }
+
             Console.WriteLine();
+            row++;
         }
     }
 }
