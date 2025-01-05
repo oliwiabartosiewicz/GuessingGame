@@ -2,25 +2,40 @@
 
 class Program
 {
-    
+
     const int boardSize = 3;
+    static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
-    
+    static bool[,] revealed = new bool[boardSize, boardSize];
+
     static void Main()
     {
         Console.WriteLine("Welcome to the memory game!");
-        Console.WriteLine("There will be a board shown to you, " +
-                          "you then have to reveal characters and rememeber where each is placed" +
-                          " when you get a match they will stay revealed until you find all matching");
+        Console.WriteLine("The game begins with all cards facing down. Players take turns flipping over two cards." +
+                          "If the two cards match, the player keeps them, otherwise, the cards are flipped back down. " +
+                          "Once all cards are matched, you win!");
 
+        DisplayBoard();
     }
 
-    static void ResetBoard()
+    static void DisplayBoard()
     {
-
-        char[] symbols = new char[]
-            { 'A', 'A', 'B', 'B', 'C', 'C', 'D', 'D', 'E', 'E', 'F', 'F' };
-
+        Console.WriteLine("  0 1 2");
+        for (int row = 0; row < boardSize; row++)
+        {
+            Console.Write(row + " ");
+            for (int collumn = 0; collumn < boardSize; collumn++)
+            {
+                if (revealed[row, collumn])
+                {
+                    Console.Write(board[row, collumn] + " ");
+                }
+                else
+                {
+                    Console.Write("* ");
+                }
+            }
+            Console.WriteLine();
+        }
     }
-
 }
