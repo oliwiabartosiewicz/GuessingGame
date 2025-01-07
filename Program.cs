@@ -16,9 +16,10 @@ class Program
     static void Main()
     {
         WelcomeToMemoryGame();
+        
+        
         ResetBoard();
         Console.Clear();
-
         DisplayBoard();
         GetUserInput();
     }
@@ -33,7 +34,24 @@ class Program
         Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
-        Thread.Sleep(5000);
+        Thread.Sleep(4000);
+
+        string previousplayerscores = readString("Would you like to see previous player scores (y/n)?");
+        switch (previousplayerscores.ToLower())
+        {
+            case "yes":
+            case "y":
+                showOldScores();
+                break;
+            case "no":
+            case "n":
+                Console.WriteLine("Starting the game... Press any key to continue.");
+                Console.ReadKey();
+                break;
+            default:
+                Console.WriteLine("Invalid command. Starting the game...");
+                break;
+        }
     }
 
     static void DisplayBoard()
@@ -74,8 +92,14 @@ class Program
         }
 
         // totalNumberOfSymbols = int.Parse(memorygameFile.ReadLine());
-
         char[] boardWithSymbols = new char [line_counter];
+        memorygameFile = new StreamReader(memoryGameSymbolFile);
+        for (int i = 0; i < line_counter; i++)
+        {
+            boardWithSymbols[i] = memorygameFile.ReadLine()[0];
+        }
+        memorygameFile.Close();
+        
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
         {
             int random = generator.Next(0, i + 1);
@@ -97,23 +121,20 @@ class Program
     }
 
 
-    static void GetUserInput()
-    {
+    
+        static void GetUserInput()
+        {
+            Console.Write("Enter Row (0 to " + (boardSize - 1) + "): ");
+            int row = int.Parse(Console.ReadLine());
+            Console.Write("Enter Column (0 to " + (boardSize - 1) + "): ");
+            int column = int.Parse(Console.ReadLine());
+            revealed[row, column] = true;
+            Console.Clear();
+            DisplayBoard(); 
+        }
+           
 
-
-        Console.Write("Enter Row (0 to " + (boardSize - 1) + "): ");
-        string rowInput = Console.ReadLine();
-        Console.Write("Enter Column (0 to " + (boardSize - 1) + "): ");
-        string columnInput = Console.ReadLine();
-
-
-
-
-
-
-
-
-
+        
 
 
 
@@ -122,6 +143,21 @@ class Program
 
 
 
+
+
+
+
+
+        static string readString ( string prompt )
+        {
+            string result ;
+            do
+            {
+                Console.Write ( prompt );
+                result = Console.ReadLine ();
+            } while ( result == "" );
+            return result;
+        }
 
         static void showOldScores()
         {
@@ -129,14 +165,17 @@ class Program
             {
                 StreamReader previousPlayersFile = new StreamReader(previousPlayerScores);
                 Console.WriteLine("Previous player score:");
-                while (previousPlayersFile.EndOfStream == false)
+                foreach (string line in File.ReadAllLines(previousPlayerScores))
                 {
-                    string line = previousPlayersFile.ReadLine();
                     Console.WriteLine(line);
                 }
-
-                previousPlayersFile.Close();
             }
+            else
+            {
+                Console.WriteLine("No previous player scores found.");
+            }
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey();
         }
-    }
+
 }
