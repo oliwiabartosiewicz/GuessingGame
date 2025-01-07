@@ -5,8 +5,7 @@ using System.IO;
 class Program
 {
     const int boardSize = 4;
-
-    // static int totalNumberOfSymbols = 16;
+    
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
@@ -16,8 +15,6 @@ class Program
     static void Main()
     {
         WelcomeToMemoryGame();
-        
-        
         ResetBoard();
         Console.Clear();
         DisplayBoard();
@@ -72,10 +69,8 @@ class Program
                 {
                     Console.Write("* ");
                 }
-
                 column++;
             }
-
             Console.WriteLine();
             row++;
         }
@@ -90,16 +85,15 @@ class Program
         {
             line_counter++;
         }
-
-        // totalNumberOfSymbols = int.Parse(memorygameFile.ReadLine());
         char[] boardWithSymbols = new char [line_counter];
         memorygameFile = new StreamReader(memoryGameSymbolFile);
         for (int i = 0; i < line_counter; i++)
         {
             boardWithSymbols[i] = memorygameFile.ReadLine()[0];
         }
+
         memorygameFile.Close();
-        
+
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
         {
             int random = generator.Next(0, i + 1);
@@ -121,32 +115,41 @@ class Program
     }
 
 
-    
-        static void GetUserInput()
-        {
-            Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
-            int rowFirstCard = int.Parse(Console.ReadLine());
-            Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
-            int columnFirstCard = int.Parse(Console.ReadLine());
-            revealed[rowFirstCard, columnFirstCard] = true;
-            
-            Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
-            int rowSecondCard = int.Parse(Console.ReadLine());
-            Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
-            int columnSecondCard = int.Parse(Console.ReadLine());
-            revealed[rowSecondCard, columnSecondCard] = true;
-            
-            Console.Clear();
-            DisplayBoard(); 
-        }
-           
 
+    static void GetUserInput()
+    {// first choice of card
+        Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
+        int rowFirstCard = int.Parse(Console.ReadLine());
+        Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
+        int columnFirstCard = int.Parse(Console.ReadLine());
+        revealed[rowFirstCard, columnFirstCard] = true;
+        Console.Clear();
+        DisplayBoard();
         
+    // second choice of card
+        Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
+        int rowSecondCard = int.Parse(Console.ReadLine());
+        Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
+        int columnSecondCard = int.Parse(Console.ReadLine());
+        revealed[rowSecondCard, columnSecondCard] = true;
+        Console.Clear();
+        DisplayBoard();
+        
+        if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
+        {
+                Console.WriteLine("It's a match!");
+        }
+        else
+        {
+                Console.WriteLine("Not a match. Try again.");
+                revealed[rowFirstCard, columnFirstCard] = false;
+                revealed[rowSecondCard, columnSecondCard] = false;
+        }
+        
+    }
+    
 
-
-
-
-
+    
 
 
 
