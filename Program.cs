@@ -15,6 +15,7 @@ class Program
     static void Main()
     {
         WelcomeToMemoryGame();
+        PreviousPlayerScores();
         ResetBoard();
         Console.Clear();
         DisplayBoard();
@@ -31,25 +32,11 @@ class Program
         Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
-        Thread.Sleep(3000);
+        Thread.Sleep(2000);
 
-        string previousplayerscores = readString("Would you like to see previous player scores (y/n)?");
-        switch (previousplayerscores.ToLower())
-        {
-            case "yes":
-            case "y":
-                showOldScores();
-                break;
-            case "no":
-            case "n":
-                Console.WriteLine("Starting the game... Press any key to continue.");
-                Console.ReadKey();
-                break;
-            default:
-                Console.WriteLine("Invalid command. Starting the game...");
-                break;
-        }
     }
+
+    
 
     static void DisplayBoard()
     {
@@ -117,6 +104,8 @@ class Program
 
 
     static void GetUserInput()
+    
+    
     {// first choice of card
         Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
         int rowFirstCard = int.Parse(Console.ReadLine());
@@ -134,7 +123,8 @@ class Program
         revealed[rowSecondCard, columnSecondCard] = true;
         Console.Clear();
         DisplayBoard();
-        
+
+        //match or no match
         if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
         {
                 Console.WriteLine("It's a match!");
@@ -146,6 +136,8 @@ class Program
                 revealed[rowSecondCard, columnSecondCard] = false;
         }
         
+        Console.WriteLine("Press Enter to continue...");
+        Console.ReadLine();
     }
     
 
@@ -167,6 +159,27 @@ class Program
                 result = Console.ReadLine ();
             } while ( result == "" );
             return result;
+        }
+        
+        static void PreviousPlayerScores()
+        {
+            string previousPlayerScores = readString("Would you like to see previous player scores (y/n)?");
+            switch (previousPlayerScores.ToLower())
+            {
+                case "yes":
+                case "y":
+                    showOldScores();
+                    break;
+                case "no":
+                case "n":
+                    Console.WriteLine("Starting the game... Press any key to continue.");
+                    Console.ReadKey();
+                    break;
+                default:
+                    Console.WriteLine("Invalid command. Starting the game...");
+                    break;
+            }
+
         }
 
         static void showOldScores()
