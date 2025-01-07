@@ -34,7 +34,7 @@ class Program
         Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
-        Thread.Sleep(4000);
+        Thread.Sleep(3000);
 
         string previousplayerscores = readString("Would you like to see previous player scores (y/n)?");
         switch (previousplayerscores.ToLower())
@@ -124,11 +124,18 @@ class Program
     
         static void GetUserInput()
         {
-            Console.Write("Enter Row (0 to " + (boardSize - 1) + "): ");
-            int row = int.Parse(Console.ReadLine());
-            Console.Write("Enter Column (0 to " + (boardSize - 1) + "): ");
-            int column = int.Parse(Console.ReadLine());
-            revealed[row, column] = true;
+            Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
+            int rowFirstCard = int.Parse(Console.ReadLine());
+            Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
+            int columnFirstCard = int.Parse(Console.ReadLine());
+            revealed[rowFirstCard, columnFirstCard] = true;
+            
+            Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
+            int rowSecondCard = int.Parse(Console.ReadLine());
+            Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
+            int columnSecondCard = int.Parse(Console.ReadLine());
+            revealed[rowSecondCard, columnSecondCard] = true;
+            
             Console.Clear();
             DisplayBoard(); 
         }
