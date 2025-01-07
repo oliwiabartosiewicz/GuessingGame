@@ -4,7 +4,7 @@ using System.IO;
 class Program
 {
     const int boardSize = 4;
-    static int totalNumberOfSymbols = 16;
+   // static int totalNumberOfSymbols = 16;
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
@@ -17,16 +17,16 @@ class Program
         Console.WriteLine("The game begins with all cards facing down. ");
         Console.WriteLine("Players take turns flipping over two cards.");
         Console.WriteLine("If the two cards match, the player keeps them, otherwise,");
-        Console.WriteLine("the cards are flipped back down.);");
+        Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
         
        
-        resetBoard();
-        displayBoard();
+        ResetBoard();
+        DisplayBoard();
     }
 
-    static void displayBoard()
+    static void DisplayBoard()
     {
         Console.WriteLine("  0 1 2 3");
         int row = 0;
@@ -51,12 +51,19 @@ class Program
         }
     }
 
-    static void resetBoard()
+    static void ResetBoard()
     {
-        StreamReader quizFile = new StreamReader(memoryGameSymbolFile);
-        totalNumberOfSymbols = int.Parse(quizFile.ReadLine());
+        StreamReader memorygameFile = new StreamReader(memoryGameSymbolFile);
+        // counting the lines in the file until no more.
+        int line_counter = 0;
+        while (memorygameFile.ReadLine() != null)
+        {
+            line_counter++;
+        }
+        
+       // totalNumberOfSymbols = int.Parse(memorygameFile.ReadLine());
 
-        char[] boardWithSymbols = new char [totalNumberOfSymbols];
+        char[] boardWithSymbols = new char [line_counter];
         
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
         {
