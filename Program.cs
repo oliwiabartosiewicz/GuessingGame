@@ -1,17 +1,30 @@
 ﻿namespace AssessmentTask;
 using System;
 using System.IO;
+
 class Program
 {
     const int boardSize = 4;
-   // static int totalNumberOfSymbols = 16;
+
+    // static int totalNumberOfSymbols = 16;
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
     const string memoryGameSymbolFile = "memoryGameSymbol.txt";
-    const string previousPlayerScores= "previousPlayerScores.txt";
+    const string previousPlayerScores = "previousPlayerScores.txt";
 
     static void Main()
+    {
+        WelcomeToMemoryGame();
+        ResetBoard();
+        Console.Clear();
+
+        DisplayBoard();
+        GetUserInput();
+    }
+
+
+    static void WelcomeToMemoryGame()
     {
         Console.WriteLine("Welcome to the memory game!");
         Console.WriteLine("The game begins with all cards facing down. ");
@@ -20,10 +33,7 @@ class Program
         Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
-        
-       
-        ResetBoard();
-        DisplayBoard();
+        Thread.Sleep(5000);
     }
 
     static void DisplayBoard()
@@ -44,8 +54,10 @@ class Program
                 {
                     Console.Write("* ");
                 }
+
                 column++;
             }
+
             Console.WriteLine();
             row++;
         }
@@ -60,11 +72,10 @@ class Program
         {
             line_counter++;
         }
-        
-       // totalNumberOfSymbols = int.Parse(memorygameFile.ReadLine());
+
+        // totalNumberOfSymbols = int.Parse(memorygameFile.ReadLine());
 
         char[] boardWithSymbols = new char [line_counter];
-        
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
         {
             int random = generator.Next(0, i + 1);
@@ -72,49 +83,60 @@ class Program
             boardWithSymbols[i] = boardWithSymbols[random];
             boardWithSymbols[random] = character;
         }
+
         int index = 0;
         for (int row = 0; row < boardSize; row++)
         {
             for (int column = 0; column < boardSize; column++)
             {
                 board[row, column] = boardWithSymbols[index];
-                revealed[row, column] = false; 
+                revealed[row, column] = false;
                 index++;
             }
         }
     }
 
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    static void showOldScores()
-    {
-        if (File.Exists(previousPlayerScores))
-        {
-            StreamReader previousPlayersFile = new StreamReader(previousPlayerScores);
-            Console.WriteLine("Previous player score:");
-            while (previousPlayersFile.EndOfStream == false)
-            {
-                string line = previousPlayersFile.ReadLine();
-                Console.WriteLine(line);
-            }
 
-            previousPlayersFile.Close();
+    static void GetUserInput()
+    {
+
+
+        Console.Write("Enter Row (0 to " + (boardSize - 1) + "): ");
+        string rowInput = Console.ReadLine();
+        Console.Write("Enter Column (0 to " + (boardSize - 1) + "): ");
+        string columnInput = Console.ReadLine();
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        static void showOldScores()
+        {
+            if (File.Exists(previousPlayerScores))
+            {
+                StreamReader previousPlayersFile = new StreamReader(previousPlayerScores);
+                Console.WriteLine("Previous player score:");
+                while (previousPlayersFile.EndOfStream == false)
+                {
+                    string line = previousPlayersFile.ReadLine();
+                    Console.WriteLine(line);
+                }
+
+                previousPlayersFile.Close();
+            }
         }
     }
 }
