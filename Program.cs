@@ -5,7 +5,6 @@ using System.IO;
 class Program
 {
     const int boardSize = 4;
-    
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
@@ -80,7 +79,8 @@ class Program
         }
 
         memorygameFile.Close();
-
+        
+// shuffling symbols from file uploaded
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
         {
             int random = generator.Next(0, i + 1);
@@ -104,9 +104,10 @@ class Program
 
 
     static void GetUserInput()
-    
-    
-    {// first choice of card
+    {
+        CheckAllCardsRevealed();
+        
+        // first choice of card
         Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
         int rowFirstCard = int.Parse(Console.ReadLine());
         Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
@@ -138,10 +139,27 @@ class Program
         
         Console.WriteLine("Press Enter to continue...");
         Console.ReadLine();
+        Console.Clear();
     }
     
 
     
+        static bool CheckAllCardsRevealed()
+        {//looping through every row 
+            for (int row = 0; row < boardSize; row++)
+            {//looping through every column in row
+                for (int column = 0; column < boardSize; column++)
+                {
+                    if (!revealed[row, column])
+                    {
+                        return false;
+                    }
+                }
+            }
+            return true;
+
+            Console.WriteLine("Congratulations all cards are matched");
+        }
 
 
 
@@ -199,6 +217,7 @@ class Program
             }
             Console.WriteLine("Press any key to continue...");
             Console.ReadKey();
+            Console.Clear();
         }
 
 }
