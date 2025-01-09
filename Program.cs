@@ -105,46 +105,48 @@ class Program
 
     static void GetUserInput()
     {
-        CheckAllCardsRevealed();
+        while (!CheckAllCardsRevealed())
+        {
         
-        // first choice of card
-        Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
-        int rowFirstCard = int.Parse(Console.ReadLine());
-        Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
-        int columnFirstCard = int.Parse(Console.ReadLine());
-        revealed[rowFirstCard, columnFirstCard] = true;
-        Console.Clear();
-        DisplayBoard();
-        
-    // second choice of card
-        Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
-        int rowSecondCard = int.Parse(Console.ReadLine());
-        Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
-        int columnSecondCard = int.Parse(Console.ReadLine());
-        revealed[rowSecondCard, columnSecondCard] = true;
-        Console.Clear();
-        DisplayBoard();
+            // first choice of card
+            Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
+            int rowFirstCard = int.Parse(Console.ReadLine());
+            Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
+            int columnFirstCard = int.Parse(Console.ReadLine());
+            revealed[rowFirstCard, columnFirstCard] = true;
+            Console.Clear();
+            DisplayBoard();
 
-        //match or no match
-        if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
-        {
+            // second choice of card
+            Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
+            int rowSecondCard = int.Parse(Console.ReadLine());
+            Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
+            int columnSecondCard = int.Parse(Console.ReadLine());
+            revealed[rowSecondCard, columnSecondCard] = true;
+            Console.Clear();
+            DisplayBoard();
+
+            //match or no match
+            if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
+            {
                 Console.WriteLine("It's a match!");
-        }
-        else
-        {
+            }
+            else
+            {
                 Console.WriteLine("Not a match. Try again.");
                 revealed[rowFirstCard, columnFirstCard] = false;
                 revealed[rowSecondCard, columnSecondCard] = false;
-        }
-        
-        Console.WriteLine("Press Enter to continue...");
-        Console.ReadLine();
-        Console.Clear();
-    }
-    
+            }
 
-    
-        static bool CheckAllCardsRevealed()
+            Console.WriteLine("Press Enter to continue...");
+            Console.ReadLine();
+            Console.Clear();
+            DisplayBoard();
+        }
+
+    }
+
+    static bool CheckAllCardsRevealed()
         {//looping through every row 
             for (int row = 0; row < boardSize; row++)
             {//looping through every column in row
@@ -197,7 +199,6 @@ class Program
                     Console.WriteLine("Invalid command. Starting the game...");
                     break;
             }
-
         }
 
         static void showOldScores()
