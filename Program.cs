@@ -4,12 +4,13 @@ using System.IO;
 
 class Program
 {
-    const int boardSize = 4;
+    const int boardSize = 2;
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
     const string memoryGameSymbolFile = "memoryGameSymbol.txt";
     const string previousPlayerScores = "previousPlayerScores.txt";
+    const int totalNumberOfGuessesAllowed = 10;
 
     static void Main()
     {
@@ -31,11 +32,11 @@ class Program
         Console.WriteLine("the cards are flipped back down");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
-        Thread.Sleep(2000);
+        Thread.Sleep(1000);
 
     }
 
-    
+     
 
     static void DisplayBoard()
     {
@@ -105,8 +106,16 @@ class Program
 
     static void GetUserInput()
     {
+        int score= 0;
+        
         while (!CheckAllCardsRevealed())
-        {
+            
+        {//score is greater than or equal to
+            if (score >= totalNumberOfGuessesAllowed)
+            {
+                Console.WriteLine("You've reached the maximum number of guesses allowed. Game over!");
+                return;
+            }
         
             // first choice of card
             Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
@@ -137,12 +146,16 @@ class Program
                 revealed[rowFirstCard, columnFirstCard] = false;
                 revealed[rowSecondCard, columnSecondCard] = false;
             }
-
+            score++;
+            
             Console.WriteLine("Press Enter to continue...");
             Console.ReadLine();
             Console.Clear();
             DisplayBoard();
         }
+        Console.WriteLine("You have matched all cards!");
+        Console.WriteLine("You finished the game in "  + score +" guesses.");
+        askingUserNameAndScore(score);
         
     }
 
@@ -160,13 +173,25 @@ class Program
             }
             return true;
 
-            Console.WriteLine("Congratulations all cards are matched");
+           
         }
 
 
 
 
+    static void askingUserNameAndScore(int score)
+    {
+        Console.WriteLine("What is your name? This is so that we can record your result");
+        string userName = Console.ReadLine();
+                
+                
+        StreamWriter scoreFileToUpdate = new StreamWriter(previousPlayerScores,true);
 
+        string guessesused = score + "/" + totalNumberOfGuessesAllowed;
+        scoreFileToUpdate.WriteLine(userName + ": " + guessesused);
+
+        scoreFileToUpdate.Close();
+    }
 
 
 
@@ -206,7 +231,7 @@ class Program
             if (File.Exists(previousPlayerScores))
             {
                 StreamReader previousPlayersFile = new StreamReader(previousPlayerScores);
-                Console.WriteLine("Previous player score:");
+                Console.WriteLine("Previous player scores:");
                 foreach (string line in File.ReadAllLines(previousPlayerScores))
                 {
                     Console.WriteLine(line);
