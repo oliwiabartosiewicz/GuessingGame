@@ -143,7 +143,7 @@ class Program
             Console.Clear();
             DisplayBoard();
         }
-
+        
     }
 
     static bool CheckAllCardsRevealed()
