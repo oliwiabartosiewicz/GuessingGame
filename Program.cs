@@ -118,20 +118,28 @@ class Program
             }
         
             // first choice of card
-            Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
-            int rowFirstCard = int.Parse(Console.ReadLine());
-            Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
-            int columnFirstCard = int.Parse(Console.ReadLine());
+            //Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
+            //int rowFirstCard = int.Parse(Console.ReadLine());
+            int rowFirstCard = readInt("Enter Row for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+
+            //Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
+            //int columnFirstCard = int.Parse(Console.ReadLine());
+            int columnFirstCard = readInt("Enter Column for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+
             revealed[rowFirstCard, columnFirstCard] = true;
             Console.Clear();
             DisplayBoard();
 
             // second choice of card
-            Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
-            int rowSecondCard = int.Parse(Console.ReadLine());
-            Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
-            int columnSecondCard = int.Parse(Console.ReadLine());
-            revealed[rowSecondCard, columnSecondCard] = true;
+           // Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
+            //int rowSecondCard = int.Parse(Console.ReadLine());
+            int rowSecondCard = readInt("Enter Row for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+
+            //Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
+           // int columnSecondCard = int.Parse(Console.ReadLine());
+           int columnSecondCard = readInt("Enter Column for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+
+           revealed[rowSecondCard, columnSecondCard] = true;
             Console.Clear();
             DisplayBoard();
 
@@ -167,13 +175,11 @@ class Program
                 {
                     if (!revealed[row, column])
                     {
-                        return false;
+                        return false;//If card is still hidden, then exits and returns false.
                     }
                 }
             }
             return true;
-
-           
         }
 
 
@@ -181,21 +187,14 @@ class Program
 
     static void askingUserNameAndScore(int score)
     {
-        Console.WriteLine("What is your name? This is so that we can record your result");
-        string userName = Console.ReadLine();
-                
-                
+        string userName = readString("What is your name? This is so that we can record your result: ");
         StreamWriter scoreFileToUpdate = new StreamWriter(previousPlayerScores,true);
-
         string guessesused = score + "/" + totalNumberOfGuessesAllowed;
         scoreFileToUpdate.WriteLine(userName + ": " + guessesused);
-
         scoreFileToUpdate.Close();
     }
 
-
-
-        static string readString ( string prompt )
+    static string readString ( string prompt )
         {
             string result ;
             do
@@ -205,8 +204,40 @@ class Program
             } while ( result == "" );
             return result;
         }
+    
+    static int readInteger(string prompt)
+    {
+        do
+        {
+            string enteredString = readString(prompt);
+            try
+            {
+                return int.Parse(enteredString);
+            }
+            catch
+            {
+                Console.WriteLine("Invalid integer input! Please enter a valid integer.");
+            }
+        } while (true);
+    }
+
+    static int readInt(string prompt, int low, int high)
+    {
+        int result;
+        do
+        {
+            result = readInteger(prompt);
+            Console.WriteLine();
+            if ((result < low) || (result > high))
+            {
+                Console.WriteLine("Number out of range.");
+            }
+        } while ((result < low) || (result > high));
+        return result;
+    }
+
         
-        static void PreviousPlayerScores()
+    static void PreviousPlayerScores()
         {
             string previousPlayerScores = readString("Would you like to see previous player scores (y/n)?");
             switch (previousPlayerScores.ToLower())
@@ -226,7 +257,7 @@ class Program
             }
         }
 
-        static void showOldScores()
+    static void showOldScores()
         {
             if (File.Exists(previousPlayerScores))
             {
