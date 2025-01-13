@@ -10,7 +10,6 @@ class Program
     static bool[,] revealed = new bool[boardSize, boardSize];
     const string memoryGameSymbolFile = "memoryGameSymbol.txt";
     const string previousPlayerScores = "previousPlayerScores.txt";
-    const int totalNumberOfGuessesAllowed = 10;
 
     static void Main()
     {
@@ -21,8 +20,6 @@ class Program
         DisplayBoard();
         GetUserInput();
     }
-
-
     static void WelcomeToMemoryGame()
     {
         Console.WriteLine("Welcome to the memory game!");
@@ -33,11 +30,8 @@ class Program
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
         Thread.Sleep(1000);
-
     }
-
-     
-
+    
     static void DisplayBoard()
     {
         Console.WriteLine("  0 1 2 3");
@@ -78,7 +72,6 @@ class Program
         {
             boardWithSymbols[i] = memorygameFile.ReadLine()[0];
         }
-
         memorygameFile.Close();
         
 // shuffling symbols from file uploaded
@@ -89,7 +82,6 @@ class Program
             boardWithSymbols[i] = boardWithSymbols[random];
             boardWithSymbols[random] = character;
         }
-
         int index = 0;
         for (int row = 0; row < boardSize; row++)
         {
@@ -101,9 +93,7 @@ class Program
             }
         }
     }
-
-
-
+    
     static void GetUserInput()
     {
         int score= 0;
@@ -111,35 +101,24 @@ class Program
         while (!CheckAllCardsRevealed())
             
         {//score is greater than or equal to
-            if (score >= totalNumberOfGuessesAllowed)
+            StreamReader configFile = new StreamReader("config.txt");
+            int maxAttempts = int.Parse(configFile.ReadLine());
+            if (score >= maxAttempts)
             {
-                Console.WriteLine("You've reached the maximum number of guesses allowed. Game over!");
-                return;
+            Console.WriteLine("You've reached the maximum number of guesses allowed. Game over!");
+            return;
             }
-        
-            // first choice of card
-            //Console.Write("Enter Row for first card (0 to " + (boardSize - 1) + "): ");
-            //int rowFirstCard = int.Parse(Console.ReadLine());
+            configFile.Close();
+            // first choice of card1
             int rowFirstCard = readInt("Enter Row for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-
-            //Console.Write("Enter Column for first card (0 to " + (boardSize - 1) + "): ");
-            //int columnFirstCard = int.Parse(Console.ReadLine());
             int columnFirstCard = readInt("Enter Column for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-
             revealed[rowFirstCard, columnFirstCard] = true;
             Console.Clear();
             DisplayBoard();
-
             // second choice of card
-           // Console.Write("Enter Row for second card (0 to " + (boardSize - 1) + "): ");
-            //int rowSecondCard = int.Parse(Console.ReadLine());
             int rowSecondCard = readInt("Enter Row for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-
-            //Console.Write("Enter Column for second card (0 to " + (boardSize - 1) + "): ");
-           // int columnSecondCard = int.Parse(Console.ReadLine());
-           int columnSecondCard = readInt("Enter Column for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-
-           revealed[rowSecondCard, columnSecondCard] = true;
+            int columnSecondCard = readInt("Enter Column for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+            revealed[rowSecondCard, columnSecondCard] = true;
             Console.Clear();
             DisplayBoard();
 
@@ -189,8 +168,11 @@ class Program
     {
         string userName = readString("What is your name? This is so that we can record your result: ");
         StreamWriter scoreFileToUpdate = new StreamWriter(previousPlayerScores,true);
-        string guessesused = score + "/" + totalNumberOfGuessesAllowed;
-        scoreFileToUpdate.WriteLine(userName + ": " + guessesused);
+        StreamReader configFile = new StreamReader("config.txt");
+        int maxAttempts = int.Parse(configFile.ReadLine());
+            string guessesused = score + "/" + maxAttempts;
+            scoreFileToUpdate.WriteLine(userName + ": " + guessesused);
+        configFile.Close();
         scoreFileToUpdate.Close();
     }
 
@@ -235,8 +217,6 @@ class Program
         } while ((result < low) || (result > high));
         return result;
     }
-
-        
     static void PreviousPlayerScores()
         {
             string previousPlayerScores = readString("Would you like to see previous player scores (y/n)?");
@@ -276,5 +256,4 @@ class Program
             Console.ReadKey();
             Console.Clear();
         }
-
 }
