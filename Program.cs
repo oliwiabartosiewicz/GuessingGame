@@ -97,9 +97,7 @@ class Program
     static void GetUserInput()
     {
         int score= 0;
-        
         while (!CheckAllCardsRevealed())
-            
         {//score is greater than or equal to
             StreamReader configFile = new StreamReader("config.txt");
             int maxAttempts = int.Parse(configFile.ReadLine());
@@ -175,7 +173,8 @@ class Program
         configFile.Close();
         scoreFileToUpdate.Close();
     }
-
+// For the below readString Miles, R. (2019) C# Programming Yellow Book. 8th edn. Section 3.1.10 Method Libraries, pp. 56–58.
+// // Available at: www.robmiles.com.
     static string readString ( string prompt )
         {
             string result ;
@@ -202,7 +201,8 @@ class Program
             }
         } while (true);
     }
-
+// For the below readInt Miles, R. (2019) C# Programming Yellow Book. 8th edn. Section 3.1.10 Method Libraries, pp. 56–58.
+// Available at: www.robmiles.com.
     static int readInt(string prompt, int low, int high)
     {
         int result;
@@ -217,6 +217,8 @@ class Program
         } while ((result < low) || (result > high));
         return result;
     }
+    //Adapted below PreviousPlayerScores with help of Sculthorpe,N.(2024).
+    //Fundamentals of Software Programming (SOFT40121) 
     static void PreviousPlayerScores()
         {
             string previousPlayerScores = readString("Would you like to see previous player scores (y/n)?");
@@ -236,7 +238,8 @@ class Program
                     break;
             }
         }
-
+    //Adapted below showOldScores with help of Sculthorpe,N.(2024).
+    //Fundamentals of Software Programming (SOFT40121) Programming Exercises: File Output
     static void showOldScores()
         {
             if (File.Exists(previousPlayerScores))
