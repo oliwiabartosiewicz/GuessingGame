@@ -86,6 +86,7 @@ class Program
         {
             for (int column = 0; column < boardSize; column++)
             {//assigns symbol from shuffled array to the board position
+                //the next line is adapted with ChatGPT 
                 board[row, column] = boardWithSymbols[index];
                 revealed[row, column] = false;
                 index++;
