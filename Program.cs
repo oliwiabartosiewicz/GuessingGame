@@ -4,7 +4,7 @@ using System.IO;
 
 class Program
 {
-    const int boardSize = 2;
+    const int boardSize = 4;
     static Random generator = new Random();
     static char[,] board = new char[boardSize, boardSize];
     static bool[,] revealed = new bool[boardSize, boardSize];
