@@ -75,7 +75,7 @@ class Program
         
 // shuffling symbols from file uploaded
         for (int i = boardWithSymbols.Length - 1; i > 0; i--)
-        {
+        { // the below 4 lines was done with help of ChatGPT    
             int random = generator.Next(0, i + 1);
             char character = boardWithSymbols[i];
             boardWithSymbols[i] = boardWithSymbols[random];
@@ -85,7 +85,7 @@ class Program
         for (int row = 0; row < boardSize; row++)
         {
             for (int column = 0; column < boardSize; column++)
-            {
+            {//assigns symbol from shuffled array to the board position
                 board[row, column] = boardWithSymbols[index];
                 revealed[row, column] = false;
                 index++;
@@ -122,10 +122,10 @@ class Program
 
                 Console.WriteLine("This card is already revealed. Please choose another card.");
             }
-
             revealed[rowFirstCard, columnFirstCard] = true;
             Console.Clear();
             DisplayBoard();
+            
             // second choice of card
             int rowSecondCard; 
             int columnSecondCard;
@@ -145,8 +145,7 @@ class Program
             revealed[rowSecondCard, columnSecondCard] = true;
                 Console.Clear();
                 DisplayBoard();
-            
-
+                
             //match or no match
             if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
             {
@@ -185,10 +184,7 @@ class Program
             }
             return true;
         }
-
-
-
-
+    
     static void askingUserNameAndScore(int score)
     {
         string userName = readString("What is your name? This is so that we can record your result: ");
