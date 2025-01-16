@@ -26,7 +26,7 @@ class Program
         Console.WriteLine("The game begins with all cards facing down. ");
         Console.WriteLine("Players take turns flipping over two cards.");
         Console.WriteLine("If the two cards match, the player keeps them, otherwise,");
-        Console.WriteLine("the cards are flipped back down");
+        Console.WriteLine("the cards are flipped back down. You will have a limited amount of guesses!");
         Console.WriteLine("Once all cards are matched, you win!");
         Console.WriteLine();
         Thread.Sleep(1000);
@@ -60,7 +60,6 @@ class Program
     static void ResetBoard()
     {
         StreamReader memorygameFile = new StreamReader(memoryGameSymbolFile);
-        // counting the lines in the file until no more.
         int line_counter = 0;
         while (memorygameFile.ReadLine() != null)
         {
@@ -107,18 +106,46 @@ class Program
             return;
             }
             configFile.Close();
-            // first choice of card1
-            int rowFirstCard = readInt("Enter Row for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-            int columnFirstCard = readInt("Enter Column for first card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+            // first choice of card
+            int rowFirstCard; 
+            int columnFirstCard;
+            while (true)
+            {
+                rowFirstCard = readInt("Enter Row for first card (0 to " + (boardSize - 1) + "): ", 0,
+                    boardSize - 1);
+                columnFirstCard = readInt("Enter Column for first card (0 to " + (boardSize - 1) + "): ", 0,
+                    boardSize - 1);
+                if (!revealed[rowFirstCard, columnFirstCard])
+                {
+                    break;
+                }
+
+                Console.WriteLine("This card is already revealed. Please choose another card.");
+            }
+
             revealed[rowFirstCard, columnFirstCard] = true;
             Console.Clear();
             DisplayBoard();
             // second choice of card
-            int rowSecondCard = readInt("Enter Row for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
-            int columnSecondCard = readInt("Enter Column for second card (0 to " + (boardSize - 1) + "): ", 0, boardSize - 1);
+            int rowSecondCard; 
+            int columnSecondCard;
+            while (true)
+            {
+                rowSecondCard = readInt("Enter Row for second card (0 to " + (boardSize - 1) + "): ", 0,
+                    boardSize - 1);
+                columnSecondCard = readInt("Enter Column for second card (0 to " + (boardSize - 1) + "): ", 0,
+                    boardSize - 1);
+                if (!revealed[rowFirstCard, columnFirstCard]||!revealed[rowSecondCard, columnSecondCard])
+                {
+                    break;
+                }
+
+                Console.WriteLine("This card is already revealed. Please choose another card.");
+            }
             revealed[rowSecondCard, columnSecondCard] = true;
-            Console.Clear();
-            DisplayBoard();
+                Console.Clear();
+                DisplayBoard();
+            
 
             //match or no match
             if (board[rowFirstCard, columnFirstCard] == board[rowSecondCard, columnSecondCard])
@@ -217,8 +244,7 @@ class Program
         } while ((result < low) || (result > high));
         return result;
     }
-    //Adapted below PreviousPlayerScores with help of Sculthorpe,N.(2024).
-    //Fundamentals of Software Programming (SOFT40121) 
+    //Sculthorpe,N.(2024).Fundamentals of Software Programming (SOFT40121) 
     static void PreviousPlayerScores()
         {
             string previousPlayerScores = readString("Would you like to see previous player scores (y/n)?");
@@ -238,8 +264,7 @@ class Program
                     break;
             }
         }
-    //Adapted below showOldScores with help of Sculthorpe,N.(2024).
-    //Fundamentals of Software Programming (SOFT40121) Programming Exercises: File Output
+    //Sculthorpe,N.(2024). Fundamentals of Software Programming (SOFT40121) Programming Exercises: File Output
     static void showOldScores()
         {
             if (File.Exists(previousPlayerScores))
